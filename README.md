@@ -48,3 +48,14 @@ run project
 python src.main:app
 ```
 check swagger for documentation and testing on localhost:8000/docs
+
+with docker
+```shell
+docker build -t api .
+docker run -p 8000:8000 api
+```
+
+to access log file
+```shell
+sudo docker exec -it <CONTAINER_ID> cat logs/app.log
+```

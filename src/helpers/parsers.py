@@ -3,12 +3,12 @@ from fastapi import UploadFile, HTTPException
 from io import StringIO
 from typing import List
 import json
-from models.db_models.company import Company
+from src.models.db_models.company import Company
 from datetime import datetime
 import logging
-from services.check_city_location import city_in_usa
-from helpers.check_if_saas import is_saas
-from helpers.company_age import get_company_age
+from src.services.check_city_location import city_in_usa
+from src.helpers.check_if_saas import is_saas
+from src.helpers.company_age import get_company_age
 
 logger = logging.getLogger(__name__)
 

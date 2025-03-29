@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String, Boolean, JSON, DateTime
 from pydantic import BaseModel
-from db_factory.db_factory import Base
 from pydantic import Field
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
+
+from src.db_factory.db_factory import Base
 
 
 class Company(Base):  # type:ignore

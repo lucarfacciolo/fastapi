@@ -62,3 +62,20 @@ async def import_company_data(
     except Exception as e:
         logger.exception(f"bad request on saving company data {e}")
         raise HTTPException(status_code=500, detail="Bad Request")
+
+
+@app.post(
+    "/process_company",
+    description="receives a list of urls, and process already in db companies given a json rule set",
+    response_description="returns a json array containing the processing output of each url(company) sent",
+)
+async def process_company():
+    pass
+
+
+@app.get(
+    "/get_companies",
+    description="list only previously processed companies, in a json array. each object contains: url,imported_data,processed variables,date when was imported and last processed date",
+)
+async def get_companies():
+    pass
