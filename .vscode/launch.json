@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FastAPI Debug",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/venv/bin/uvicorn",  // Path to uvicorn
+      "args": [
+        "src.main:app",  // Your FastAPI app's module and instance
+        "--reload"       // Enable hot-reloading
+      ],
+			"justMyCode": false,
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    }
+  ]
+}

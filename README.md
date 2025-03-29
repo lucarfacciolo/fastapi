@@ -1,0 +1,45 @@
+## Telescope Partners Project
+
+## Ubuntu 24.04.2 LTS
+
+this project runs with python3.12
+
+in order to setup the env, run following lines
+
+```shell
+#update software packages
+sudo apt update
+sudo apt upgrade
+#install compilers and dev tools
+sudo apt install build-essential
+#include newer versions of python
+sudo add-apt-repository ppa:deadsnakes/ppa
+#install 
+sudo apt install python3.12-pip
+sudo apt install python3.12-venv
+sudo apt install python3.12-dev
+#install uvicorn for running api
+sudo apt install uvicorn
+#upgrade packages
+python3.12 -m ensurepip --upgrade
+python3.12 -m pip install --upgrade pip
+#create venv
+python3.12 -m venv venv
+#activate venv
+source venv/bin/activate
+#upgrade cython, some libs need to compile code
+pip install --upgrade cython
+#handle binaries/libs
+pip install wheel
+#update again packages
+sudo apt update
+sudo apt upgrade
+#install dependencies
+pip install -r prod-requirements.txt
+
+#with venv activate, create local db
+python src/create_db.py
+
+run uvicorn src.main:app to run api
+check swagger for documentation and testing on localhost:8000/docs
+```

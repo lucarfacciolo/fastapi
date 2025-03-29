@@ -1,0 +1,10 @@
+-r requirements.txt
+#linter
+pep8
+autopep8
+autoflake
+flake8
+black
+isort
+isort[requirements_deprecated_finder]
+bandit
