@@ -36,10 +36,15 @@ sudo apt update
 sudo apt upgrade
 #install dependencies
 pip install -r prod-requirements.txt
+```
 
+```shell
 #with venv activate, create local db
 python src/create_db.py
-
-run uvicorn src.main:app to run api
-check swagger for documentation and testing on localhost:8000/docs
 ```
+
+run project 
+```shell
+python src.main:app
+```
+check swagger for documentation and testing on localhost:8000/docs
