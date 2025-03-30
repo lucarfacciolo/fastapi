@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 
 # internal
-from models.db.company import Company
+from src.models.db.company import Company
 from src.services.check_city_location import city_in_usa
 from src.helpers.is_saas import is_saas
 from src.helpers.company_age import get_company_age

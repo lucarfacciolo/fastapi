@@ -13,11 +13,11 @@ from src.constants.file_extension import FileExtension
 from src.helpers.parsers import parse_csv, parse_json
 from src.services.init_logging import init_logging
 import src.helpers.health_helpers as hhelper
-from models.request_models.process_company_request_model import (
+from src.models.request_models.process_company_request_model import (
     ProcessCompanyRequestModel,
 )
 from src.models.return_models.get_company_return_model import GetCompanyReturnModel
-from models.return_models.health_return_model import HealthReturnModel
+from src.models.return_models.health_return_model import HealthReturnModel
 from src.db_factory.db_factory import engine
 from src.services.apply_rules import apply_rules_to_company
 from src.services.create_processed_company import create_processed_company
@@ -161,7 +161,7 @@ async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
                 company for company in companies if company.url == p_company.url
             ][0]
 
-            response = GetCompanyReturnModel(
+            response = dict(
                 url=p_company.url,
                 imported_data=get_imported_data(company),
                 processed_features=p_company.processed_features,
@@ -199,9 +199,7 @@ async def health():
         db = hhelper.check_db()
         ram = hhelper.check_ram()
         cpu = hhelper.check_cpu()
-        return_json = HealthReturnModel(
-            api="healthy", disk=disk, db=db, ram=ram, cpu=cpu
-        )
+        return_json = dict(api="healthy", disk=disk, db=db, ram=ram, cpu=cpu)
         logger.info(f"health finished gracefully. health status {return_json}")
         return JSONResponse(status_code=200, content=return_json)
     except Exception as e:
