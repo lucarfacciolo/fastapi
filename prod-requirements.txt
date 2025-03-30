@@ -5,6 +5,7 @@ autopep8==2.3.2
 bandit==1.8.3
 black==25.1.0
 certifi==2025.1.31
+charset-normalizer==3.4.1
 click==8.1.8
 dnspython==2.7.0
 email_validator==2.2.0
@@ -35,6 +36,7 @@ pathspec==0.12.1
 pbr==6.1.1
 pep8==1.7.1
 platformdirs==4.3.7
+psutil==7.0.0
 pycodestyle==2.12.1
 pydantic==2.11.1
 pydantic-extra-types==2.10.3
@@ -47,6 +49,7 @@ python-dotenv==1.1.0
 python-multipart==0.0.20
 pytz==2025.2
 PyYAML==6.0.2
+requests==2.32.3
 rich==13.9.4
 rich-toolkit==0.14.0
 setuptools==78.1.0
@@ -61,6 +64,7 @@ typing-inspection==0.4.0
 typing_extensions==4.13.0
 tzdata==2025.2
 ujson==5.10.0
+urllib3==2.3.0
 uvicorn==0.34.0
 uvloop==0.21.0
 watchfiles==1.0.4
