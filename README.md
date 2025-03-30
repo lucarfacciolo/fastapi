@@ -63,3 +63,5 @@ sudo docker exec -it <CONTAINER_ID> cat logs/app.log
 file to import in order to test process companies is files/process_companies.json
 
 any feature name can be given, i'm saving features as a json in order to make it unstructured and able to handle unpredictable incomes
+
+log folder will be created first time running this project. it will log all requests

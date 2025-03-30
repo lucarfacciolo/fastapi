@@ -68,7 +68,9 @@ async def import_company_data(
 
         db.add_all(companies)
         db.commit()
-        logger.info("import company data finished gracefully")
+        logger.info(
+            f"import company data finished gracefully. companies imported {companies}"
+        )
         return JSONResponse(
             content=f"{len(companies)} were imported.",
             status_code=200,
@@ -112,7 +114,7 @@ async def process_company(
         logger.info("saving into db")
         db.add_all(processed_companies)
         db.commit()
-        logger.info("process company finished gracefully")
+        logger.info(f"process company finished gracefully. response {features}")
         return JSONResponse(content=features, status_code=200)
     except Exception as e:
         logger.exception(f"error processing companies {e}")
@@ -161,7 +163,7 @@ async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
                 last_processed=str(p_company.last_processed),
             )
             responses.append(response)
-        logger.info("get companies finished gracefully")
+        logger.info(f"get companies finished gracefully. response {responses}")
         return JSONResponse(content=responses, status_code=200)
     except Exception as e:
         logger.exception(f"error getting companies {e}")
@@ -181,7 +183,7 @@ async def health():
         ram = hhelper.check_ram()
         cpu = hhelper.check_cpu()
         return_json = dict(disk=disk, db=db, ram=ram, cpu=cpu)
-        logger.info("health finished gracefully")
+        logger.info(f"health finished gracefully. health status {return_json}")
         return JSONResponse(status_code=200, content=return_json)
     except Exception as e:
         logger.exception(f"error on health request {e}")
