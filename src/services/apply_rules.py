@@ -1,5 +1,5 @@
 from typing import List
-from models.process_company_request_model import Rule
+from src.models.process_company_request_model import Rule
 
 
 def apply_rules_to_company(company, rules: List[Rule]) -> dict:

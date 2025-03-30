@@ -2,7 +2,7 @@
 from sqlalchemy import Column, String, JSON, DateTime, Integer
 
 # internal
-from db_factory.db_factory import Base
+from src.db_factory.db_factory import Base
 
 
 class ProcessedCompany(Base):  # type:ignore

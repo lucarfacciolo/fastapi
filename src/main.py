@@ -128,8 +128,8 @@ async def process_company(
           url: str
           imported_data:json
           processed_features:json
-          date_imported: str(datetime)
-          last_processed: str(datetime)
+          date_imported: str(datetime) in utc
+          last_processed: str(datetime) in utc
           """,
 )
 async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
