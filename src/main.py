@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import Table, MetaData
 import logging
 from datetime import datetime
+from typing import List
 
 # internal
 from src.db_factory.get_db import get_db
@@ -12,7 +13,11 @@ from src.constants.file_extension import FileExtension
 from src.helpers.parsers import parse_csv, parse_json
 from src.services.init_logging import init_logging
 import src.helpers.health_helpers as hhelper
-from src.models.process_company_request_model import ProcessCompanyRequestModel
+from models.request_models.process_company_request_model import (
+    ProcessCompanyRequestModel,
+)
+from src.models.return_models.get_company_return_model import GetCompanyReturnModel
+from models.return_models.health_return_model import HealthReturnModel
 from src.db_factory.db_factory import engine
 from src.services.apply_rules import apply_rules_to_company
 from src.services.create_processed_company import create_processed_company
@@ -43,12 +48,13 @@ app = FastAPI()
           description: str
           industry: str  
           """,
+    tags=["Companies"],
 )
 async def import_company_data(
     file: UploadFile = File(...), db: Session = Depends(get_db)
 ) -> JSONResponse:
 
-    logger.info(f"request was made. File {file} was sent")
+    logger.info(f"import company data request was made. File {file} was sent")
     if not file:
         logger.exception("no file was uploaded")
         raise HTTPException(status_code=500, detail="No file was uploaded")
@@ -57,10 +63,8 @@ async def import_company_data(
     try:
         file_extension = FileExtension(f_ext)
         if file_extension == FileExtension.CSV:
-            logger.info("csv file being parsed")
             companies = parse_csv(file)
         elif file_extension == FileExtension.JSON:
-            logger.info("json file being parsed")
             companies = parse_json(file)
 
         logger.info("file parsed successfully")
@@ -84,11 +88,12 @@ async def import_company_data(
     "/process_company",
     description="receives a json with a list of urls and a json rule set. Process already in db companies given rule set",
     response_description="returns a json array containing the processing output of each url(company) sent",
+    tags=["Companies"],
 )
 async def process_company(
     request: ProcessCompanyRequestModel, db: Session = Depends(get_db)
 ) -> JSONResponse:
-    logger.info("process company request was made")
+    logger.info(f"process company request was made. input sent {request}")
     try:
         urls = request.urls
         rules = request.rule_set
@@ -104,7 +109,6 @@ async def process_company(
         processed_companies = []
         logger.info("processing features")
         for c in companies:
-            # c.last_processed = last_processed
             feature = apply_rules_to_company(c, rules)
             features.append(feature)
             processed_companies.append(
@@ -133,9 +137,11 @@ async def process_company(
           date_imported: str(datetime) in utc
           last_processed: str(datetime) in utc
           """,
+    tags=["Companies"],
+    response_model=List[GetCompanyReturnModel],
 )
 async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
-    logger.info("get companies was requested")
+    logger.info("get companies request was made.")
     try:
         p_companies = Table(
             "processed_companies",
@@ -155,7 +161,7 @@ async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
                 company for company in companies if company.url == p_company.url
             ][0]
 
-            response = dict(
+            response = GetCompanyReturnModel(
                 url=p_company.url,
                 imported_data=get_imported_data(company),
                 processed_features=p_company.processed_features,
@@ -172,17 +178,30 @@ async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
 
 @app.get(
     "/health",
-    description="check api, db, ram and cpu statuses",
+    description="""
+        check api, db, ram and cpu statuses
+
+
+        api: str
+        disk: str(percentage)
+        db: bool
+        ram: str(percentage)
+        cpu: str(percentage)
+          """,
     response_description="returns json with main statuses",
+    tags=["Health"],
+    response_model=HealthReturnModel,
 )
 async def health():
-    logger.info("health request was made")
+    logger.info("health request was made.")
     try:
         disk = hhelper.check_disk()
         db = hhelper.check_db()
         ram = hhelper.check_ram()
         cpu = hhelper.check_cpu()
-        return_json = dict(disk=disk, db=db, ram=ram, cpu=cpu)
+        return_json = HealthReturnModel(
+            api="healthy", disk=disk, db=db, ram=ram, cpu=cpu
+        )
         logger.info(f"health finished gracefully. health status {return_json}")
         return JSONResponse(status_code=200, content=return_json)
     except Exception as e:

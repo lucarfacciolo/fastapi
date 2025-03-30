@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 
 # internal
-from src.models.company import Company
+from models.db.company import Company
 from src.services.check_city_location import city_in_usa
 from src.helpers.is_saas import is_saas
 from src.helpers.company_age import get_company_age
@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def parse_csv(file: UploadFile) -> List[Company]:
+    logger.info("csv file being parsed")
     try:
         contents = file.file.read().decode("utf-8")
         csv_reader = csv.DictReader(StringIO(contents))
@@ -66,6 +67,7 @@ def _parse_data(data: List[dict], is_json=False) -> List[Company]:
 
 
 def parse_json(file: UploadFile) -> List[Company]:
+    logger.info("json file being parsed")
     try:
         contents = file.file.read().decode("utf-8")
         json_data = json.loads(contents)

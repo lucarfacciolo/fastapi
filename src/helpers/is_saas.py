@@ -1,4 +1,4 @@
-# (NOTE lfacciolo) found this keywords that points to a saas company, not the best idea
+# (NOTE lfacciolo) found this keywords that points to a saas company, not the best idea should use a llm api or something
 saas_keywords = [
     "subscription",
     "cloud",

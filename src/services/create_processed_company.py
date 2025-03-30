@@ -1,5 +1,5 @@
 from datetime import datetime
-from src.models.processed_company import ProcessedCompany
+from models.db.processed_company import ProcessedCompany
 
 
 def create_processed_company(url: str, last_processed: datetime, features: dict):
