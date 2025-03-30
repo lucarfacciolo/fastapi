@@ -1,19 +1,24 @@
+# external
 from typing import Generator
-from src.db_factory.db_factory import SessionLocal
 from sqlalchemy.orm import sessionmaker, Session
 
-#Singleton instance
+# internal
+from src.db_factory.db_factory import SessionLocal
+
+
+# Singleton instance
 class DatabaseInstance:
     _instance = None
 
     def __new__(cls) -> sessionmaker[Session]:
         if cls._instance is None:
             cls._instance = SessionLocal()
-        return cls._instance
+        return cls._instance  # type:ignore
 
-def get_db() -> Generator[DatabaseInstance,None,None]:
+
+def get_db() -> Generator[DatabaseInstance, None, None]:
     db = DatabaseInstance()
     try:
-        yield db
+        yield db  # type:ignore
     finally:
         pass  # Singleton session, do not close

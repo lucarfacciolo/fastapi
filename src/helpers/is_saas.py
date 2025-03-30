@@ -1,6 +1,4 @@
-from datetime import datetime
-
-# (NOTE lfacciolo) found this keywords that points to a saas company
+# (NOTE lfacciolo) found this keywords that points to a saas company, not the best idea
 saas_keywords = [
     "subscription",
     "cloud",

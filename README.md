@@ -59,3 +59,5 @@ to access log file
 ```shell
 sudo docker exec -it <CONTAINER_ID> cat logs/app.log
 ```
+
+file to import in order to test process companies is files/process_companies.json

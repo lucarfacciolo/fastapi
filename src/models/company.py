@@ -1,10 +1,8 @@
+# external
 from sqlalchemy import Column, Integer, String, Boolean, JSON, DateTime
-from pydantic import BaseModel
-from pydantic import Field
-from sqlalchemy.ext.hybrid import hybrid_property
-from datetime import datetime
 
-from src.db_factory.db_factory import Base
+# internal
+from db_factory.db_factory import Base
 
 
 class Company(Base):  # type:ignore
@@ -23,7 +21,6 @@ class Company(Base):  # type:ignore
     description = Column(String, nullable=True)
     industry = Column(String, nullable=True)
     imported_at = Column(DateTime, nullable=True)  # utc always
-    last_processed = Column(DateTime, nullable=True)  # utc always
     company_age = Column(
         String, nullable=True
     )  # (NOTE lfacciolo) saving this here is not a good idea
