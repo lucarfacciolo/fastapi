@@ -1,4 +1,3 @@
-# external
 from fastapi import FastAPI, File, Depends, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
@@ -7,7 +6,6 @@ import logging
 from datetime import datetime
 from typing import List
 
-# internal
 from src.db_factory.get_db import get_db
 from src.constants.file_extension import FileExtension
 from src.helpers.parsers import parse_csv, parse_json
@@ -32,34 +30,14 @@ app = FastAPI()
 @app.post(
     "/import_company_data",
     response_description="Return how many records were imported",
-    description="""
-          Upload a file with the following structure:
-
-          
-          company_name: str
-          url: str
-          founded_year: int
-          total_employees: int
-          headquarters_city: str
-          employee_locations: json
-          employee_growth_2y: float
-          employee_growth_1y: float
-          employee_growth_6m: float
-          description: str
-          industry: str  
-          """,
     tags=["Companies"],
 )
 async def import_company_data(
     file: UploadFile = File(...), db: Session = Depends(get_db)
 ) -> JSONResponse:
+    logger.info("import_company_data endpoint hit")
 
-    logger.info(f"import company data request was made. File {file} was sent")
-    if not file:
-        logger.exception("no file was uploaded")
-        raise HTTPException(status_code=500, detail="No file was uploaded")
-
-    f_ext = file.filename.split(".")[-1].lower()  # type:ignore
+    f_ext = file.filename.split(".")[-1].lower()
     try:
         file_extension = FileExtension(f_ext)
         if file_extension == FileExtension.CSV:
@@ -67,141 +45,118 @@ async def import_company_data(
         elif file_extension == FileExtension.JSON:
             companies = parse_json(file)
 
-        logger.info("file parsed successfully")
-        logger.info("attempt to import companies")
-
         db.add_all(companies)
         db.commit()
-        logger.info(
-            f"import company data finished gracefully. companies imported {companies}"
-        )
-        return JSONResponse(
-            content=f"{len(companies)} were imported.",
-            status_code=200,
-        )
+        logger.info(f"{len(companies)} companies imported successfully")
+        return JSONResponse(content=f"{len(companies)} were imported.", status_code=200)
     except Exception as e:
-        logger.exception(f"error on saving company data {e}")
-        raise HTTPException(status_code=500, detail=f"Bad Request {e}")
+        logger.exception("Exception while importing company data")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.post(
     "/process_company",
-    description="receives a json with a list of urls and a json rule set. Process already in db companies given rule set",
-    response_description="returns a json array containing the processing output of each url(company) sent",
+    response_description="Process companies using a rule set",
     tags=["Companies"],
 )
 async def process_company(
     request: ProcessCompanyRequestModel, db: Session = Depends(get_db)
 ) -> JSONResponse:
-    logger.info(f"process company request was made. input sent {request}")
+    logger.info("process_company endpoint hit")
     try:
         urls = request.urls
         rules = request.rule_set
 
-        companyTable = Table(
+        company_table = Table(
             "companies", MetaData(), autoload_with=engine, extend_existing=True
         )
-        logger.info("getting companies")
-        companies = db.query(companyTable).filter(companyTable.c.url.in_(urls)).all()
-        logger.info("companies retrieved")
+        companies = db.query(company_table).filter(company_table.c.url.in_(urls)).all()
+
         last_processed = datetime.utcnow()
         features = []
         processed_companies = []
-        logger.info("processing features")
+
         for c in companies:
             feature = apply_rules_to_company(c, rules)
             features.append(feature)
             processed_companies.append(
                 create_processed_company(c.url, last_processed, feature)
             )
-        logger.info("features processed")
-        logger.info("saving into db")
+
         db.add_all(processed_companies)
         db.commit()
-        logger.info(f"process company finished gracefully. response {features}")
+        logger.info(f"Processed {len(features)} companies successfully")
         return JSONResponse(content=features, status_code=200)
     except Exception as e:
-        logger.exception(f"error processing companies {e}")
-        raise HTTPException(status_code=500, detail=f"Bad Request {e}")
+        logger.exception("Exception while processing company data")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get(
     "/get_companies",
-    description="""
-          list only previously processed companies, in a json array with the following format:
-
-
-          url: str
-          imported_data:json
-          processed_features:json
-          date_imported: str(datetime) in utc
-          last_processed: str(datetime) in utc
-          """,
-    tags=["Companies"],
     response_model=List[GetCompanyReturnModel],
+    tags=["Companies"],
 )
 async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
-    logger.info("get companies request was made.")
+    logger.info("get_companies endpoint hit")
     try:
-        p_companies = Table(
+        p_company_table = Table(
             "processed_companies",
             MetaData(),
             autoload_with=engine,
             extend_existing=True,
         )
-        p_companies = db.query(p_companies).all()
-        urls = [c.url for c in p_companies]
-        companies = Table(
+        companies_table = Table(
             "companies", MetaData(), autoload_with=engine, extend_existing=True
         )
-        companies = db.query(companies).filter(companies.c.url.in_(urls)).all()
-        responses = []
-        for p_company in p_companies:
-            company = [
-                company for company in companies if company.url == p_company.url
-            ][0]
 
-            response = dict(
-                url=p_company.url,
-                imported_data=get_imported_data(company),
-                processed_features=p_company.processed_features,
-                date_imported=str(company.imported_at),
-                last_processed=str(p_company.last_processed),
+        processed = db.query(p_company_table).all()
+        urls = [c.url for c in processed]
+        originals = (
+            db.query(companies_table).filter(companies_table.c.url.in_(urls)).all()
+        )
+
+        response_list = []
+        for p in processed:
+            company = next((c for c in originals if c.url == p.url), None)
+            if not company:
+                logger.exception(f"company {p.url} not found in processed companies")
+                continue
+
+            response_list.append(
+                {
+                    "url": p.url,
+                    "imported_data": get_imported_data(company),
+                    "processed_features": p.processed_features,
+                    "date_imported": str(company.imported_at),
+                    "last_processed": str(p.last_processed),
+                }
             )
-            responses.append(response)
-        logger.info(f"get companies finished gracefully. response {responses}")
-        return JSONResponse(content=responses, status_code=200)
+
+        logger.info(f"Returned {len(response_list)} processed companies")
+        return JSONResponse(content=response_list, status_code=200)
     except Exception as e:
-        logger.exception(f"error getting companies {e}")
-        raise HTTPException(status_code=500, detail=f"Bad Request {e}")
+        logger.exception("Exception while fetching companies")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get(
     "/health",
-    description="""
-        check api, db, ram and cpu statuses
-
-
-        api: str
-        disk: str(percentage)
-        db: bool
-        ram: str(percentage)
-        cpu: str(percentage)
-          """,
-    response_description="returns json with main statuses",
-    tags=["Health"],
     response_model=HealthReturnModel,
+    tags=["Health"],
 )
 async def health():
-    logger.info("health request was made.")
+    logger.info("health endpoint hit")
     try:
-        disk = hhelper.check_disk()
-        db = hhelper.check_db()
-        ram = hhelper.check_ram()
-        cpu = hhelper.check_cpu()
-        return_json = dict(api="healthy", disk=disk, db=db, ram=ram, cpu=cpu)
-        logger.info(f"health finished gracefully. health status {return_json}")
+        return_json = {
+            "api": "healthy",
+            "disk": hhelper.check_disk(),
+            "db": hhelper.check_db(),
+            "ram": hhelper.check_ram(),
+            "cpu": hhelper.check_cpu(),
+        }
+        logger.info("Health check completed successfully")
         return JSONResponse(status_code=200, content=return_json)
     except Exception as e:
-        logger.exception(f"error on health request {e}")
-        raise HTTPException(status_code=500, detail=f"Bad Request {e}")
+        logger.exception("Exception during health check")
+        raise HTTPException(status_code=500, detail="Internal server error")

@@ -11,6 +11,7 @@ from datetime import datetime
 from src.models.db.company import Company
 from src.services.check_city_location import city_in_usa
 from src.helpers.is_saas import is_saas
+from src.helpers.predict_saas import predict_saas
 from src.helpers.company_age import get_company_age
 
 logger = logging.getLogger(__name__)
@@ -54,7 +55,7 @@ def _parse_data(data: List[dict], is_json=False) -> List[Company]:
                 is_usa_based=city_in_usa(d.get("headquarters_city")),  # type:ignore
                 company_age=get_company_age(d.get("founded_year")),  # type:ignore
                 is_saas=(
-                    is_saas(d.get("description"))  # type:ignore
+                    predict_saas(d.get("description"))  # type:ignore
                     if d.get("description")
                     else False
                 ),

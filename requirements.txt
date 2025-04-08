@@ -1,7 +1,8 @@
 fastapi
-#pandas
+pandas
 sqlalchemy
 pydantic
 #geopy
 psutil
 requests
+scikit-learn

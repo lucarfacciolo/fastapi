@@ -15,6 +15,18 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/src"
       }
+    },
+		{
+      "name": "Model Training",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/ml_models/ml_dummy_models.py",  // Path to uvicorn
+      "args": [],
+			"justMyCode": false,
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
     }
   ]
 }

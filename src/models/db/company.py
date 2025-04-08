@@ -20,7 +20,7 @@ class Company(Base):  # type:ignore
     employee_growth_6m = Column(String, nullable=True)
     description = Column(String, nullable=True)
     industry = Column(String, nullable=True)
-    imported_at = Column(DateTime, nullable=True)  # utc always
+    imported_at = Column(DateTime, nullable=True)
     company_age = Column(
         String, nullable=True
     )  # (NOTE lfacciolo) saving this here is not a good idea
