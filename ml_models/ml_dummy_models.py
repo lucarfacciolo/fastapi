@@ -23,5 +23,5 @@ if __name__ == "__main__":
     joblib.dump(pipeline, "files/saas_classifier.pkl")
 
     # Evaluate
-    y_pred = pipeline.predict_proba(x_test)
+    y_pred = pipeline.predict(x_test)
     print(classification_report(y_test, y_pred))
