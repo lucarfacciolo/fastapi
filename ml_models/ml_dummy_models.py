@@ -11,9 +11,9 @@ if __name__ == "__main__":
     df = pd.read_json("files/company-dataset.json")
     df["is_saas"] = df["description"].apply(is_saas)
 
-    # NOTE(lfacciolo) huge test_size sample but given limited amount of companies, will prioritize training. will lead to overfitting
+    # NOTE(lfacciolo) huge train_size sample but given limited amount of companies, will prioritize training. will lead to overfitting
     x_train, x_test, y_train, y_test = train_test_split(
-        df["description"], df["is_saas"], test_size=0.9
+        df["description"], df["is_saas"], test_size=0.1
     )
 
     # NOTE(lfacciolo) term frequency - inverse document frequency to evaluate important words in text, pass as a matrix of importance to log reg
