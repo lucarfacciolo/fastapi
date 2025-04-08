@@ -8,3 +8,5 @@ black
 isort
 isort[requirements_deprecated_finder]
 bandit
+pytest
+pytest-asyncio

@@ -14,7 +14,8 @@ if __name__ == "__main__":
     x_train, x_test, y_train, y_test = train_test_split(
         df["description"], df["is_saas"], test_size=0.2, random_state=42
     )
-    # Build pipeline
+
+    # NOTE(lfacciolo) term frequency - inverse document frequency to evaluate important words in text, pass as a matrix of importance to log reg
     pipeline = Pipeline([("tfidf", TfidfVectorizer()), ("clf", LogisticRegression())])
 
     # Train

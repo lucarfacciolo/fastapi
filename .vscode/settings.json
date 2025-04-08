@@ -9,5 +9,6 @@
 	"python.analysis.extraPaths": ["src"],
 	"python.analysis.autoSearchPaths": false,
 	"material-icon-theme.files.associations": {},
-	"material-icon-theme.folders.associations": {}
+	"material-icon-theme.folders.associations": {},
+	"debug.inlineValues": "off"
 }

@@ -1,0 +1,2 @@
+company_name,url,founded_year,total_employees,headquarters_city,employee_locations,employee_rowth_2Y,employee_growth_1Y,employee_growth_6M,description,industry,test
+CloudLogic Labs,https://www.cloudlogiclabs.com,2021,38,Boston (USA),"{""USA"": 32, ""Canada"": 3, ""UK"": 2, ""India"": 1}",85.2,38.6,19.8,"Project management platform with integrated resource allocation, subscription-based pricing with tiered plans",Software,test

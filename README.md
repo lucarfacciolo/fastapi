@@ -1,4 +1,4 @@
-## FastAPI with SQL LITE and processing features
+## FastAPI with SQL lite and dummy ml model to classify saas companies
 
 ## Ubuntu 24.04.2 LTS
 
@@ -65,3 +65,13 @@ file to import in order to test process companies is files/process_companies.jso
 any feature name can be given, i'm saving features as a json in order to make it unstructured and able to handle unpredictable incomes
 
 log folder will be created first time running this project. it will log all requests,responses and errors.
+
+
+## V2
+
+implemented a TFIDF to classify descriptions based on the importance of each word. Instead of defining a saas company by already defined words, Now companies will have a probability, and probability threshold to be a saas company. used a dummy LogisticRegression Model, but could be a set of models, and could be tuned as well.
+
+implemented unit testing for basic cenarios and edge cases for each endpoint
+
+
+with venv activated and dev-requirements.txt installed, run pytest tests/ for unity testing

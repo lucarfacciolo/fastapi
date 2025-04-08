@@ -27,6 +27,17 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}"
       }
+    },
+		{
+      "name": "Python: Debug Tests",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "tests",  // or the specific file: "tests/test_endpoints.py"
+        "-s"      // to show print() statements
+      ],
+      "justMyCode": false
     }
   ]
 }
