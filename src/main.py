@@ -51,7 +51,7 @@ async def import_company_data(
         return JSONResponse(content=f"{len(companies)} were imported.", status_code=200)
     except Exception as e:
         logger.exception("Exception while importing company data")
-        raise HTTPException(status_code=500, detail=f"Internal server error {e}")
+        raise HTTPException(status_code=500, detail=f"Internal server error")
 
 
 @app.post(
@@ -89,7 +89,7 @@ async def process_company(
         return JSONResponse(content=features, status_code=200)
     except Exception as e:
         logger.exception("Exception while processing company data")
-        raise HTTPException(status_code=500, detail=f"Internal server error {e}")
+        raise HTTPException(status_code=500, detail=f"Internal server error")
 
 
 @app.get(
@@ -137,7 +137,7 @@ async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
         return JSONResponse(content=response_list, status_code=200)
     except Exception as e:
         logger.exception("Exception while fetching companies")
-        raise HTTPException(status_code=500, detail=f"Internal server error {e}")
+        raise HTTPException(status_code=500, detail=f"Internal server error")
 
 
 @app.get(
@@ -160,4 +160,4 @@ async def health():
         return JSONResponse(status_code=200, content=return_json)
     except Exception as e:
         logger.exception("Exception during health check")
-        raise HTTPException(status_code=500, detail=f"Internal server error {e}")
+        raise HTTPException(status_code=500, detail=f"Internal server error")
