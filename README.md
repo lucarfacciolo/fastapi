@@ -69,9 +69,8 @@ log folder will be created first time running this project. it will log all requ
 
 ## V2
 
-implemented a TFIDF to classify descriptions based on the importance of each word. Instead of defining a saas company by already defined words, Now companies will have a probability, and probability threshold to be a saas company. used a dummy LogisticRegression Model, but could be a set of models, and could be tuned as well.
+implemented a TFIDF to classify descriptions based on the importance of each word. Instead of defining a saas company by already defined words, Now companies will have a probability, and probability threshold to be a saas company. used a dummy LogisticRegression Model, but could be a set of models, and could be tuned as well. please, read ml_dummy_models.py for a little deepdive
 
-implemented unit testing for basic cenarios and edge cases for each endpoint
-
+implemented unit testing for basic cenarios and edge cases for each endpoint. created mockdb to test some cases.
 
 with venv activated and dev-requirements.txt installed, run pytest tests/ for unity testing
