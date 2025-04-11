@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from src.models.db.processed_company import ProcessedCompany
 
 

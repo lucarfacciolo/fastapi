@@ -1,25 +1,26 @@
-from fastapi import FastAPI, File, Depends, UploadFile, HTTPException
-from fastapi.responses import JSONResponse
-from sqlalchemy.orm import Session
-from sqlalchemy import Table, MetaData
 import logging
 from datetime import datetime
 from typing import List
 
-from src.db_factory.get_db import get_db
-from src.constants.file_extension import FileExtension
-from src.helpers.parsers import parse_csv, parse_json
-from src.services.init_logging import init_logging
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi.responses import JSONResponse
+from sqlalchemy import MetaData, Table
+from sqlalchemy.orm import Session
+
 import src.helpers.health_helpers as hhelper
+from src.constants.file_extension import FileExtension
+from src.db_factory.db_factory import engine
+from src.db_factory.get_db import get_db
+from src.helpers.parsers import parse_csv, parse_json
 from src.models.request_models.process_company_request_model import (
     ProcessCompanyRequestModel,
 )
 from src.models.return_models.get_company_return_model import GetCompanyReturnModel
 from src.models.return_models.health_return_model import HealthReturnModel
-from src.db_factory.db_factory import engine
 from src.services.apply_rules import apply_rules_to_company
 from src.services.create_processed_company import create_processed_company
 from src.services.get_imported_data import get_imported_data
+from src.services.init_logging import init_logging
 
 init_logging()
 logger = logging.getLogger(__name__)

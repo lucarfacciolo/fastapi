@@ -1,9 +1,9 @@
-import psutil
-from sqlalchemy import text
 import logging
 
-from src.db_factory.get_db import SessionLocal
+import psutil
+from sqlalchemy import text
 
+from src.db_factory.get_db import SessionLocal
 
 logger = logging.getLogger(__name__)
 

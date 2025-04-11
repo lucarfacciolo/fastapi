@@ -1,14 +1,18 @@
-{
-	"[python]":{
-		"editor.formatOnSave": true
-	},
-	"git.ignoreLimitWarning": true,
-	"python.analysis.typeCheckingMode": "basic",
-	"editor.wordWrapColumn": 120,
-	"editor.wordWrap": "wordWrapColumn",
-	"python.analysis.extraPaths": ["src"],
-	"python.analysis.autoSearchPaths": false,
-	"material-icon-theme.files.associations": {},
-	"material-icon-theme.folders.associations": {},
-	"debug.inlineValues": "off"
-}
+// {
+// 	"[python]": {
+// 		"editor.defaultFormatter": "ms-python.black-formatter",
+// 		"editor.formatOnSave": true,
+// 		"editor.codeActionsOnSave": {
+// 			"source.organizeImports": "explicit"
+// 		},
+// 	},
+// 	"isort.args": [
+// 		"--profile",
+// 		"black",
+// 		"--line-length",
+// 		"88"
+// 	],
+// 	"debug.inlineValues": "off",
+// 	"editor.wordWrapColumn": 88,
+// 	"editor.wordWrap": "wordWrapColumn",
+// }

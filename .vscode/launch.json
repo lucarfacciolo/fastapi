@@ -1,43 +1,43 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "FastAPI Debug",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/venv/bin/uvicorn",  // Path to uvicorn
-      "args": [
-        "src.main:app",  // Your FastAPI app's module and instance
-        "--reload"       // Enable hot-reloading
-      ],
-			"justMyCode": false,
-      "console": "integratedTerminal",
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/src"
-      }
-    },
+	"version": "0.2.0",
+	"configurations": [
 		{
-      "name": "Model Training",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/ml_models/ml_dummy_models.py",  // Path to uvicorn
-      "args": [],
+			"name": "FastAPI Debug",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/venv/bin/uvicorn", // Path to uvicorn
+			"args": [
+				"src.main:app", // Your FastAPI app's module and instance
+				"--reload" // Enable hot-reloading
+			],
 			"justMyCode": false,
-      "console": "integratedTerminal",
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}"
-      }
-    },
+			"console": "integratedTerminal",
+			"env": {
+				"PYTHONPATH": "${workspaceFolder}/src"
+			}
+		},
 		{
-      "name": "Python: Debug Tests",
-      "type": "debugpy",
-      "request": "launch",
-      "module": "pytest",
-      "args": [
-        "tests",  // or the specific file: "tests/test_endpoints.py"
-        "-s"      // to show print() statements
-      ],
-      "justMyCode": false
-    }
-  ]
+			"name": "Model Training",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/ml_models/ml_dummy_models.py", // Path to uvicorn
+			"args": [],
+			"justMyCode": false,
+			"console": "integratedTerminal",
+			"env": {
+				"PYTHONPATH": "${workspaceFolder}"
+			}
+		},
+		{
+			"name": "Python: Debug Tests",
+			"type": "debugpy",
+			"request": "launch",
+			"module": "pytest",
+			"args": [
+				"tests", // or the specific file: "tests/test_endpoints.py"
+				"-s" // to show print() statements
+			],
+			"justMyCode": false
+		}
+	]
 }

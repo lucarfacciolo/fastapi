@@ -1,8 +1,8 @@
 import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import sessionmaker, declarative_base, Session, DeclarativeBase
-
+from sqlalchemy.orm import DeclarativeBase, Session, declarative_base, sessionmaker
 
 DATABASE_URL: str = "sqlite:///db/database.db"
 # Ensure the "db" folder exists

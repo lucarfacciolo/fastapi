@@ -1,11 +1,12 @@
+import joblib
 import pandas as pd
-from src.helpers.is_saas import is_saas
-from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
-import joblib
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+
+from src.helpers.is_saas import is_saas
 
 if __name__ == "__main__":
     df = pd.read_json("files/company-dataset.json")

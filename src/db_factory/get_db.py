@@ -1,6 +1,7 @@
 # external
 from typing import Generator
-from sqlalchemy.orm import sessionmaker, Session
+
+from sqlalchemy.orm import Session, sessionmaker
 
 # internal
 from src.db_factory.db_factory import SessionLocal

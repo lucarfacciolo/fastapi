@@ -1,5 +1,5 @@
 # external
-from sqlalchemy import Column, String, JSON, DateTime, Integer
+from sqlalchemy import JSON, Column, DateTime, Integer, String
 
 # internal
 from src.db_factory.db_factory import Base

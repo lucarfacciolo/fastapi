@@ -1,4 +1,5 @@
 from typing import List
+
 from src.models.request_models.process_company_request_model import Rule
 
 
