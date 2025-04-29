@@ -5,7 +5,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-
 from src.helpers.is_saas import is_saas
 
 if __name__ == "__main__":

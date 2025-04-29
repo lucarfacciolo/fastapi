@@ -1,17 +1,14 @@
 import csv
+from datetime import datetime
+from fastapi import HTTPException, UploadFile
+from io import StringIO
 import json
 import logging
-from datetime import datetime
-from io import StringIO
-from typing import List
-
-from fastapi import HTTPException, UploadFile
-
 from src.helpers.company_age import get_company_age
-from src.helpers.is_saas import is_saas
 from src.helpers.predict_saas import predict_saas
 from src.models.db.company import Company
 from src.services.check_city_location import city_in_usa
+from typing import List
 
 logger = logging.getLogger(__name__)
 

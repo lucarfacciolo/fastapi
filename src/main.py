@@ -1,16 +1,13 @@
-import logging
 from datetime import datetime
-from typing import List
-
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
+import logging
 from sqlalchemy import MetaData, Table
 from sqlalchemy.orm import Session
-
-import src.helpers.health_helpers as hhelper
 from src.constants.file_extension import FileExtension
 from src.db_factory.db_factory import engine
 from src.db_factory.get_db import get_db
+import src.helpers.health_helpers as hhelper
 from src.helpers.parsers import parse_csv, parse_json
 from src.models.request_models.process_company_request_model import (
     ProcessCompanyRequestModel,
@@ -21,6 +18,7 @@ from src.services.apply_rules import apply_rules_to_company
 from src.services.create_processed_company import create_processed_company
 from src.services.get_imported_data import get_imported_data
 from src.services.init_logging import init_logging
+from typing import List
 
 init_logging()
 logger = logging.getLogger(__name__)
@@ -50,9 +48,9 @@ async def import_company_data(
         db.commit()
         logger.info(f"{len(companies)} companies imported successfully")
         return JSONResponse(content=f"{len(companies)} were imported.", status_code=200)
-    except Exception as e:
+    except Exception:
         logger.exception("Exception while importing company data")
-        raise HTTPException(status_code=500, detail=f"Internal server error")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.post(
@@ -88,9 +86,9 @@ async def process_company(
         db.commit()
         logger.info(f"Processed {len(features)} companies successfully")
         return JSONResponse(content=features, status_code=200)
-    except Exception as e:
+    except Exception:
         logger.exception("Exception while processing company data")
-        raise HTTPException(status_code=500, detail=f"Internal server error")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get(
@@ -136,9 +134,9 @@ async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
 
         logger.info(f"Returned {len(response_list)} processed companies")
         return JSONResponse(content=response_list, status_code=200)
-    except Exception as e:
+    except Exception:
         logger.exception("Exception while fetching companies")
-        raise HTTPException(status_code=500, detail=f"Internal server error")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get(
@@ -149,7 +147,6 @@ async def get_companies(db: Session = Depends(get_db)) -> JSONResponse:
 async def health():
     logger.info("health endpoint hit")
     try:
-
         return_json = {
             "disk": hhelper.check_disk(),
             "db": hhelper.check_db(),
@@ -159,6 +156,6 @@ async def health():
 
         logger.info("Health check completed successfully")
         return JSONResponse(status_code=200, content=return_json)
-    except Exception as e:
+    except Exception:
         logger.exception("Exception during health check")
-        raise HTTPException(status_code=500, detail=f"Internal server error")
+        raise HTTPException(status_code=500, detail="Internal server error")

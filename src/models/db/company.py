@@ -1,5 +1,5 @@
 # external
-from sqlalchemy import JSON, Boolean, Column, DateTime, Integer, String
+from sqlalchemy import JSON, Column, DateTime, Integer, String
 
 # internal
 from src.db_factory.db_factory import Base
@@ -21,8 +21,8 @@ class Company(Base):  # type:ignore
     description = Column(String, nullable=True)
     industry = Column(String, nullable=True)
     imported_at = Column(DateTime, nullable=True)
-    company_age = Column(
-        String, nullable=True
-    )  # (NOTE lfacciolo) saving this here is not a good idea
-    is_usa_based = Column(Boolean, nullable=True)
-    is_saas = Column(Boolean, nullable=True)
+    # company_age = Column(
+    #     String, nullable=True
+    # )  # (NOTE lfacciolo) saving this here is not a good idea
+    # is_usa_based = Column(Boolean, nullable=True)
+    # is_saas = Column(Boolean, nullable=True)

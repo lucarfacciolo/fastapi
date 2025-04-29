@@ -1,19 +1,19 @@
-import sys
-import os
 import json
+import os
+import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from fastapi.testclient import TestClient
-from src.main import app
 from src.db_factory.get_db import get_db
+from src.main import app
 from tests.mocked_db import override_get_db, override_mocked_url
 
 
 def test_no_match():
     app.dependency_overrides[get_db] = override_get_db
     client = TestClient(app)
-    with open("files/process_companies.json", "r") as f:
+    with open("files/process_companies.json") as f:
         json_data = json.load(f)
 
     response = client.post("/process_company", json=json_data)
@@ -26,7 +26,7 @@ def test_no_match():
 def test_matched_company():
     app.dependency_overrides[get_db] = override_mocked_url
     client = TestClient(app)
-    with open("files/test_process_companies.json", "r") as f:
+    with open("files/test_process_companies.json") as f:
         json_data = json.load(f)
 
     response = client.post("/process_company", json=json_data)

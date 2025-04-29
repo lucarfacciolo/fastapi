@@ -1,18 +1,16 @@
-// {
-// 	"[python]": {
-// 		"editor.defaultFormatter": "ms-python.black-formatter",
-// 		"editor.formatOnSave": true,
-// 		"editor.codeActionsOnSave": {
-// 			"source.organizeImports": "explicit"
-// 		},
-// 	},
-// 	"isort.args": [
-// 		"--profile",
-// 		"black",
-// 		"--line-length",
-// 		"88"
-// 	],
-// 	"debug.inlineValues": "off",
-// 	"editor.wordWrapColumn": 88,
-// 	"editor.wordWrap": "wordWrapColumn",
-// }
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Dracula Theme",
+    "workbench.startupEditor": "none",
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+            "editor.formatOnSave": true,
+            "editor.codeActionsOnSave": {
+                    "source.organizeImports": "explicit",
+                    "source.fixAll": "explicit"
+            },
+    },
+    "debugpy.showPythonInlineValues": true,
+    "remote.autoForwardPortsSource": "hybrid",
+    "debug.inlineValues": "off"
+}

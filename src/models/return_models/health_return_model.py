@@ -1,5 +1,5 @@
 # external
-from pydantic import BaseModel, Json
+from pydantic import BaseModel
 
 
 class HealthReturnModel(BaseModel):  # type:ignore

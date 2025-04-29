@@ -1,8 +1,6 @@
 import logging
-
 import psutil
 from sqlalchemy import text
-
 from src.db_factory.get_db import SessionLocal
 
 logger = logging.getLogger(__name__)
@@ -25,5 +23,5 @@ def check_db() -> str:
         conn = SessionLocal()
         conn.execute(text("SELECT 1"))
         return "Online"
-    except Exception as e:
+    except Exception:
         return "Offline"

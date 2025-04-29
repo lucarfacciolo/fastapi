@@ -1,0 +1,34 @@
+[tool.ruff]
+line-length = 88
+# Enable useful rule sets for style, bugs, modern code, types, and FastAPI/Pydantic
+select = [
+  "E",    # pycodestyle
+  "F",    # pyflakes
+  "B",    # flake8-bugbear
+  "I",    # isort
+  "UP",   # pyupgrade
+  "N",    # pep8-naming
+  "C4",   # flake8-comprehensions
+  "S",    # flake8-bandit
+  "TCH",  # flake8-type-checking (TYPE_CHECKING usage)
+  "ANN",  # flake8-annotations (type hints enforcement)
+]
+ignore = ["E501","B904","C408","N802","TC001","S101","ANN201","ANN202"]
+fix = true      # optional: auto-fix import order
+
+[tool.ruff.isort]
+known-first-party = ["constants","db_factory","helpers","ml_models","models","services"]
+#known-third-party = ["test"]
+extra-standard-library = ["*"]
+force-sort-within-sections = true
+combine-as-imports = true
+
+[tool.black]
+line-length= 88
+target-version = "py312"
+
+# Optional: formatting settings
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"

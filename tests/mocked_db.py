@@ -1,13 +1,12 @@
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from unittest.mock import MagicMock
 from datetime import datetime
-
 from src.models.db.company import Company
 from src.models.db.processed_company import ProcessedCompany
+from unittest.mock import MagicMock
 
 
 class MockDBSession:
