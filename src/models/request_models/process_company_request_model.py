@@ -18,4 +18,4 @@ class Rule(BaseModel):
 
 class ProcessCompanyRequestModel(BaseModel):
     urls: List[str]
-    rule_set: List[Rule]
+    rule_set: List[dict]

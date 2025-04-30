@@ -34,7 +34,7 @@
 			"request": "launch",
 			"module": "pytest",
 			"args": [
-				"tests/test_rules.py", // or the specific file: "tests/test_endpoints.py"
+				"tests",///test_process_company_endpoint.py", ///test_process_company_endpoint.py", // or the specific file: "tests/test_endpoints.py"
 				"-s" // to show print() statements
 			],
 			"justMyCode": false

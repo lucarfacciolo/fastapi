@@ -31,9 +31,6 @@ class MockDBSession:
                 description="A SaaS company providing solutions.",
                 industry="Software",
                 imported_at="2024-01-01",
-                company_age="4",
-                is_usa_based=True,
-                is_saas=True,
             )
         ]
 

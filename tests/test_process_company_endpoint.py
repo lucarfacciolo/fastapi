@@ -10,22 +10,9 @@ from src.main import app
 from tests.mocked_db import override_get_db, override_mocked_url
 
 
-def test_no_match():
-    app.dependency_overrides[get_db] = override_get_db
-    client = TestClient(app)
-    with open("files/process_companies.json") as f:
-        json_data = json.load(f)
-
-    response = client.post("/process_company", json=json_data)
-
-    assert response.status_code == 200
-    assert len(response.json()) == 0
-    app.dependency_overrides.clear()
-
-
 def test_matched_company():
     app.dependency_overrides[get_db] = override_mocked_url
-    client = TestClient(app)
+    client = TestClient(app, raise_server_exceptions=True)
     with open("files/test_process_companies.json") as f:
         json_data = json.load(f)
 
@@ -39,4 +26,17 @@ def test_matched_company():
     assert "age_feature" in keys
     assert "usa_based_feature" in keys
     assert "is_saas_feature" in keys
+    app.dependency_overrides.clear()
+
+
+def test_no_match():
+    app.dependency_overrides[get_db] = override_get_db
+    client = TestClient(app, raise_server_exceptions=True)
+    with open("files/process_companies.json") as f:
+        json_data = json.load(f)
+
+    response = client.post("/process_company", json=json_data)
+
+    assert response.status_code == 200
+    assert len(response.json()) == 0
     app.dependency_overrides.clear()

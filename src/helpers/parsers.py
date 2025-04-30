@@ -4,10 +4,7 @@ from fastapi import HTTPException, UploadFile
 from io import StringIO
 import json
 import logging
-from src.helpers.company_age import get_company_age
-from src.helpers.predict_saas import predict_saas
 from src.models.db.company import Company
-from src.services.check_city_location import city_in_usa
 from typing import List
 
 logger = logging.getLogger(__name__)
@@ -48,13 +45,6 @@ def _parse_data(data: List[dict], is_json=False) -> List[Company]:
                 description=d.get("description"),
                 industry=d.get("industry"),
                 imported_at=imported_at,
-                is_usa_based=city_in_usa(d.get("headquarters_city")),  # type:ignore
-                company_age=get_company_age(d.get("founded_year")),  # type:ignore
-                is_saas=(
-                    predict_saas(d.get("description"))  # type:ignore
-                    if d.get("description")
-                    else False
-                ),
             )
             companies.append(company)
         except Exception as e:

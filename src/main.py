@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from src.constants.file_extension import FileExtension
 from src.db_factory.db_factory import engine
 from src.db_factory.get_db import get_db
+from src.helpers.company_to_dict import companies_to_dict
 import src.helpers.health_helpers as hhelper
 from src.helpers.parsers import parse_csv, parse_json
 from src.models.request_models.process_company_request_model import (
@@ -74,20 +75,20 @@ async def process_company(
         last_processed = datetime.utcnow()
         features = []
         processed_companies = []
-
+        companies = companies_to_dict(companies)
         for c in companies:
             feature = apply_rules_to_company(c, rules)
             features.append(feature)
             processed_companies.append(
-                create_processed_company(c.url, last_processed, feature)
+                create_processed_company(c["url"], last_processed, feature)
             )
 
         db.add_all(processed_companies)
         db.commit()
         logger.info(f"Processed {len(features)} companies successfully")
         return JSONResponse(content=features, status_code=200)
-    except Exception:
-        logger.exception("Exception while processing company data")
+    except Exception as e:
+        logger.exception(f"Exception while processing company data {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
 

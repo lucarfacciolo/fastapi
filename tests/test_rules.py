@@ -1,5 +1,5 @@
 import datetime as dt
-from src.services.apply_rules import apply_new_rules_to_company
+from src.services.apply_rules import apply_rules_to_company
 
 
 def rule_set():
@@ -52,7 +52,7 @@ def test_apply_rules():
         "imported_at": dt.datetime.utcnow(),
     }
     rules = rule_set()
-    features = apply_new_rules_to_company(mock_company, rules)
+    features = apply_rules_to_company(mock_company, rules)
     assert features == {
         "head_count_feature": 0,
         "age_feature": 0,
