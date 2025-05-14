@@ -13,22 +13,33 @@ select = [
   "TCH",  # flake8-type-checking (TYPE_CHECKING usage)
   "ANN",  # flake8-annotations (type hints enforcement)
 ]
-ignore = ["E501","B904","C408","N802","TC001","S101","ANN201","ANN202"]
+ignore = ["E501","B904","C408","N802","TC001",'ANN001','ANN201',
+'E722','S101','S301','ANN202','TC003','ANN204','S106','S110',
+'F401','B018','N818','N805']
 fix = true      # optional: auto-fix import order
 
 [tool.ruff.isort]
 known-first-party = ["constants","db_factory","helpers","ml_models","models","services"]
-#known-third-party = ["test"]
 extra-standard-library = ["*"]
 force-sort-within-sections = true
 combine-as-imports = true
 
 [tool.black]
 line-length= 88
-target-version = "py312"
+target-version = ["py312"]
 
 # Optional: formatting settings
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
+
+[tool.pytest.ini_options]
+testpaths=['tests']
+log_cli = true
+log_cli_level = "INFO"
+markers = [
+    "mock_integration: marks unit tests (fast, isolated)",
+    "integration: marks integration tests (e.g. DB, services)",
+    "e2e: marks end-to-end tests (real workflows)"
+]

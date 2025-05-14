@@ -1,8 +1,10 @@
 fastapi
-#pandas
 sqlalchemy
 pydantic
-#geopy
 psutil
 requests
 scikit-learn
+ruff
+pytest
+pytest-asyncio
+httpx
