@@ -84,9 +84,9 @@ pytest tests/
 # ML Logic – V2
 This version uses TF-IDF to assess the importance of words in a company description. Instead of checking for predefined keywords, it outputs a probability score indicating whether a company is SaaS.
 
-## Model: Dummy LogisticRegression
+Model: Dummy LogisticRegression
 
-## Flexible: Swappable/tunable models
+Flexible: Swappable/tunable models
 
-## Learn more: See ml_dummy_models.py
+Learn more: See ml_dummy_models.py
 
